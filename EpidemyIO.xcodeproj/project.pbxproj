@@ -15,6 +15,8 @@
 		989252142A064FF50045D8EA /* PersonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989252132A064FF50045D8EA /* PersonModel.swift */; };
 		989252162A06574A0045D8EA /* SimulationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989252152A06574A0045D8EA /* SimulationView.swift */; };
 		9892521A2A066AC20045D8EA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989252192A066AC20045D8EA /* ContentView.swift */; };
+		98E8F76C2A069FFC00197F49 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E8F76B2A069FFC00197F49 /* CustomTextField.swift */; };
+		98E8F76F2A06A74800197F49 /* ScaleButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E8F76E2A06A74800197F49 /* ScaleButtonStyle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		989252132A064FF50045D8EA /* PersonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonModel.swift; sourceTree = "<group>"; };
 		989252152A06574A0045D8EA /* SimulationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationView.swift; sourceTree = "<group>"; };
 		989252192A066AC20045D8EA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		98E8F76B2A069FFC00197F49 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		98E8F76E2A06A74800197F49 /* ScaleButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleButtonStyle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 			isa = PBXGroup;
 			children = (
 				989252192A066AC20045D8EA /* ContentView.swift */,
+				98E8F76D2A06A73700197F49 /* ViewModifiers */,
+				98E8F76A2A069FE200197F49 /* Components */,
 				989252022A063F380045D8EA /* SetupView.swift */,
 				989252152A06574A0045D8EA /* SimulationView.swift */,
 			);
@@ -101,6 +107,22 @@
 				989252112A064FCB0045D8EA /* SimulationViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		98E8F76A2A069FE200197F49 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				98E8F76B2A069FFC00197F49 /* CustomTextField.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		98E8F76D2A06A73700197F49 /* ViewModifiers */ = {
+			isa = PBXGroup;
+			children = (
+				98E8F76E2A06A74800197F49 /* ScaleButtonStyle.swift */,
+			);
+			path = ViewModifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,11 +196,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98E8F76C2A069FFC00197F49 /* CustomTextField.swift in Sources */,
 				989252142A064FF50045D8EA /* PersonModel.swift in Sources */,
 				989252032A063F380045D8EA /* SetupView.swift in Sources */,
 				9892521A2A066AC20045D8EA /* ContentView.swift in Sources */,
 				989252162A06574A0045D8EA /* SimulationView.swift in Sources */,
 				989252122A064FCB0045D8EA /* SimulationViewModel.swift in Sources */,
+				98E8F76F2A06A74800197F49 /* ScaleButtonStyle.swift in Sources */,
 				989252012A063F380045D8EA /* EpidemyIOApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,29 +14,46 @@ struct SetupView: View {
 	var body: some View {
 		NavigationStack {
 			VStack {
+				VStack {
+					Image(systemName: "microbe")
+						.font(.system(size: 150))
+						.foregroundColor(Color(.systemGreen))
+					Text("EpidemyIO")
+						.bold()
+						.font(.title)
+				}
+				.padding(.bottom)
+				
 				Text("Настройки симуляции")
 					.font(.system(size: 25, weight: .semibold))
-					.padding(.bottom, 25)
-				VStack(alignment: .leading) {
-					Text("Количество людей в группе")
-					TextField("Например: 200", value: $viewModel.groupSize, format: .number)
-					Text("Количество зараженных при контакте")
-					TextField("Например: 200", value: $viewModel.infectionFactor, format: .number)
-					Text("Период пересчета кол-ва зараженных")
-					TextField("Например: 5", value: $viewModel.T, format: .number)
+				
+				VStack(alignment: .leading, spacing: 20) {
+						Text("Количество людей в группе")
+					CustomNumberTextField(placeholder: "Например: 200", value: $viewModel.groupSize)
+						Text("Количество зараженных при контакте")
+					CustomNumberTextField(placeholder: "Например: 3", value: $viewModel.infectionFactor)
+						Text("Период пересчета кол-ва зараженных")
+					CustomNumberTextField(placeholder: "Например: 5", value: $viewModel.T)
 				}
+				.padding(.vertical)
 				
 				NavigationLink(destination: SimulationView()) {
 					Text("Запустить моделирование" )
+						.padding(20)
+						.background(Color(.systemBlue))
+						.foregroundColor(.white)
+						.clipShape(Capsule())
 				}
+				.buttonStyle(ScaleButtonStyle())
 			}
 			.padding()
+			.toolbar(.hidden)
 		}
 	}
 }
 
 struct SetupView_Previews: PreviewProvider {
 	static var previews: some View {
-		SetupView()
+		ContentView()
 	}
 }
