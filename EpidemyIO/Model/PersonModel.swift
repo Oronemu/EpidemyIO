@@ -11,11 +11,7 @@ class Person: ObservableObject, Identifiable {
 		
 	let id = UUID()
 	
-	var isInfected: Bool = false {
-		didSet {
-			objectWillChange.send()
-		}
-	}
+	@Published var isInfected: Bool = false 
 	
 	var isInfectious: Bool = false
 	

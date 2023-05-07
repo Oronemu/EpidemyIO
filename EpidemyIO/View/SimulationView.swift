@@ -29,8 +29,7 @@ struct SimulationView: View {
 			}
 		}
 		.onAppear {
-			viewModel.createGroup()
-			viewModel.healtyCount = viewModel.group.count
+			viewModel.startSimulation()
 		}
 		.navigationBarBackButtonHidden(true)
 		.toolbar {
