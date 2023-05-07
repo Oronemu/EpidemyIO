@@ -17,13 +17,8 @@ struct SimulationView: View {
 		ZStack {
 			ScrollView {
 				LazyVGrid(columns: columns, alignment: .center, spacing: 6) {
-					ForEach(viewModel.group.indices, id: \.self) { index in
-						Image(systemName: "figure.stand")
-							.foregroundColor(viewModel.group[index].isInfected ? .red : .green)
-							.font(.system(size: 40))
-							.onTapGesture {
-								viewModel.group[index].isInfected = true
-							}
+					ForEach(viewModel.group) { person in
+						PersonView(person: person)
 					}
 				}
 			}
@@ -35,6 +30,7 @@ struct SimulationView: View {
 		}
 		.onAppear {
 			viewModel.createGroup()
+			viewModel.healtyCount = viewModel.group.count
 		}
 		.navigationBarBackButtonHidden(true)
 		.toolbar {
@@ -44,6 +40,24 @@ struct SimulationView: View {
 				}
 			}
 		}
+	}
+}
+
+struct PersonView: View {
+
+	@ObservedObject var person: Person
+	@EnvironmentObject private var viewModel: SimulationViewModel
+
+	var body: some View {
+		Button {
+			self.person.infect()
+			self.viewModel.incrementInfectedCount()
+		} label: {
+			Image(systemName: "figure.stand")
+				.foregroundColor(person.isInfected ? .red : .green)
+				.font(.system(size: 40))
+		}
+		.buttonStyle(ScaleButtonStyle())
 	}
 }
 
@@ -57,7 +71,7 @@ struct BottomBarView: View {
 			
 			VStack {
 				Image(systemName: "figure.stand")
-				Text("\(viewModel.group.count - viewModel.getInfected())")
+				Text("\(viewModel.healtyCount)")
 					.lineLimit(1)
 					.font(.system(size: 10))
 			}
@@ -85,7 +99,7 @@ struct BottomBarView: View {
 			
 			VStack {
 				Image(systemName: "figure.stand")
-				Text("\(viewModel.getInfected())")
+				Text("\(viewModel.infectedCount)")
 					.lineLimit(1)
 					.font(.system(size: 10))
 			}

@@ -8,24 +8,37 @@
 import Foundation
 
 class SimulationViewModel: ObservableObject {
-	@Published var groupSize: Int? 
+	@Published var groupSize: Int?
 	@Published var infectionFactor: Int?
 	@Published var T: Int?
 	
-	@Published var group: [Person] = []
-	
-	func createGroup() {
-		self.group = Array(repeating: Person(), count: self.groupSize ?? 0)
+	var infectedCount: Int = 0 {
+		didSet {
+			objectWillChange.send()
+		}
 	}
 	
-	func getInfected() -> Int {
-		var infected = 0
-		for person in self.group {
-			if person.isInfected {
-				infected += 1
-			}
+	var healtyCount: Int = 0 {
+		didSet {
+			objectWillChange.send()
 		}
-		return infected
+	}
+	
+	var group: [Person] = [] {
+		didSet {
+			objectWillChange.send()
+		}
+	}
+		
+	func createGroup() {
+		if let groupSize {
+			self.group = (1...groupSize).map { _ in Person() }
+		}
+	}
+	
+	func incrementInfectedCount() {
+		self.infectedCount += 1
+		self.healtyCount -= 1
 	}
 	
 }
