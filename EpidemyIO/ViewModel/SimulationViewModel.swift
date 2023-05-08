@@ -37,6 +37,8 @@ class SimulationViewModel: ObservableObject {
 		infectionModel?.stopSpread()
 		group.removeAll()
 		groupIndicies.removeAll()
+		infectedCount = 0
+		healtyCount = 0
 	}
 		
 	func createGroup() {

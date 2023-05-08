@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Dispatch
 
 class InfectionSpreadModel {
 	
@@ -15,7 +16,7 @@ class InfectionSpreadModel {
 	var columns: Int
 	var T: Int
 	var infectionFactor: Int
-	var timer: Timer?
+	var timer: DispatchSourceTimer?
 	
 	var callback: (Int) -> Void
 	
@@ -30,7 +31,9 @@ class InfectionSpreadModel {
 	
 	func startSpread() {		
 		if timer == nil {
-			timer = Timer.scheduledTimer(withTimeInterval: Double(T), repeats: true) { timer in
+			timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global(qos: .background))
+			timer?.schedule(deadline: .now(), repeating: Double(T))
+			timer?.setEventHandler {
 				for person in self.infectedPeople {
 					if person.isInfectious {
 						let index = self.groupIndicies[person.id]
@@ -38,16 +41,21 @@ class InfectionSpreadModel {
 						var peopleInfected = 0
 						for neighbour in neighbours.shuffled() {
 							if peopleInfected < self.infectionFactor {
-								neighbour.infect()
+								DispatchQueue.main.async {
+									neighbour.infect()
+								}
 								self.infectedPeople.append(neighbour)
 								peopleInfected += 1
 							}
 						}
-						self.callback(peopleInfected)
+						DispatchQueue.main.async {
+							self.callback(peopleInfected)
+						}
 						person.isInfectious = false
 					}
 				}
 			}
+			timer?.resume()
 		}
 	}
 
@@ -76,7 +84,7 @@ class InfectionSpreadModel {
 	}
 	
 	func stopSpread() {
-		timer?.invalidate()
+		timer?.cancel()
 		timer = nil
 	}
 }
