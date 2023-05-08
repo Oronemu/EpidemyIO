@@ -9,26 +9,40 @@ import Foundation
 
 class SimulationViewModel: ObservableObject {
 	
-	var infectionSpreadModel: InfectionSpreadModel = .init()
-	
+	var infectionModel: InfectionSpreadModel?
+		
 	var groupSize: Int?
 	var infectionFactor: Int?
 	var T: Int?
-	
+		
 	@Published var infectedCount: Int = 0
 	@Published var healtyCount: Int = 0
 	@Published var group: [Person] = []
+	var columnsCount = 10
+	var groupIndicies: [Person.ID : Int ] = [:]
+	
 	
 	func startSimulation() {
 		self.createGroup()
 		self.healtyCount = self.group.count
+		
+		infectionModel = InfectionSpreadModel(group: group, groupIndicies: groupIndicies, columns: columnsCount, T: T!, infectionFactor: infectionFactor!) { infectedPeople in
+			self.infectedCount += infectedPeople
+			self.healtyCount -= infectedPeople
+		}
+		infectionModel?.startSpread()
+	}
+	
+	func stopSimulation() {
+		infectionModel?.stopSpread()
+		group.removeAll()
+		groupIndicies.removeAll()
 	}
 		
 	func createGroup() {
-		group.removeAll()
-		if let groupSize {
-			self.group = (1...groupSize).map { _ in Person() }
-		}
+		guard let groupSize else { return }
+		self.group = (0...groupSize-1).map { _ in Person() }
+		self.groupIndicies = Dictionary(uniqueKeysWithValues: zip(self.group.map { person in person.id}, (0...groupSize-1)))
 	}
 	
 	func incrementInfectedCount() {
@@ -36,4 +50,8 @@ class SimulationViewModel: ObservableObject {
 		self.healtyCount -= 1
 	}
 	
+	func personInfected(person: Person) {
+		person.infect()
+		infectionModel?.infectedPeople.append(person)
+	}
 }

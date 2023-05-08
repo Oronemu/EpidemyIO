@@ -17,6 +17,7 @@ class Person: ObservableObject, Identifiable {
 	
 	func infect() {
 		self.isInfected = true
+		self.isInfectious = true
 	}
 	
 }

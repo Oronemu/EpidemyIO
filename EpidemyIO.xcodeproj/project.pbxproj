@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		981530CD2A07EC880049B3A9 /* InfectionSpreadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981530CC2A07EC880049B3A9 /* InfectionSpreadModel.swift */; };
+		981530D02A081E850049B3A9 /* InfectionSpreadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981530CF2A081E850049B3A9 /* InfectionSpreadModel.swift */; };
 		989252012A063F380045D8EA /* EpidemyIOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989252002A063F380045D8EA /* EpidemyIOApp.swift */; };
 		989252032A063F380045D8EA /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989252022A063F380045D8EA /* SetupView.swift */; };
 		989252052A063F3A0045D8EA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 989252042A063F3A0045D8EA /* Assets.xcassets */; };
@@ -21,7 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		981530CC2A07EC880049B3A9 /* InfectionSpreadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfectionSpreadModel.swift; sourceTree = "<group>"; };
+		981530CF2A081E850049B3A9 /* InfectionSpreadModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfectionSpreadModel.swift; sourceTree = "<group>"; };
 		989251FD2A063F380045D8EA /* EpidemyIO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EpidemyIO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		989252002A063F380045D8EA /* EpidemyIOApp.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = EpidemyIOApp.swift; sourceTree = "<group>"; tabWidth = 2; };
 		989252022A063F380045D8EA /* SetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -99,7 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				989252132A064FF50045D8EA /* PersonModel.swift */,
-				981530CC2A07EC880049B3A9 /* InfectionSpreadModel.swift */,
+				981530CF2A081E850049B3A9 /* InfectionSpreadModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -200,7 +200,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				98E8F76C2A069FFC00197F49 /* CustomTextField.swift in Sources */,
-				981530CD2A07EC880049B3A9 /* InfectionSpreadModel.swift in Sources */,
 				989252142A064FF50045D8EA /* PersonModel.swift in Sources */,
 				989252032A063F380045D8EA /* SetupView.swift in Sources */,
 				9892521A2A066AC20045D8EA /* ContentView.swift in Sources */,
@@ -208,6 +207,7 @@
 				989252122A064FCB0045D8EA /* SimulationViewModel.swift in Sources */,
 				98E8F76F2A06A74800197F49 /* ScaleButtonStyle.swift in Sources */,
 				989252012A063F380045D8EA /* EpidemyIOApp.swift in Sources */,
+				981530D02A081E850049B3A9 /* InfectionSpreadModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

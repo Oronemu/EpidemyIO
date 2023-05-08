@@ -10,13 +10,13 @@ import SwiftUI
 struct SimulationView: View {
 	
 	@EnvironmentObject private var viewModel: SimulationViewModel
-
-	let columns = Array(repeating: GridItem(.flexible()), count: 10)
 	
 	var body: some View {
 		ZStack {
 			ScrollView {
-				LazyVGrid(columns: columns, alignment: .center, spacing: 6) {
+				LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: viewModel.columnsCount),
+									alignment: .center,
+									spacing: 6) {
 					ForEach(viewModel.group) { person in
 						PersonView(person: person)
 					}
@@ -30,6 +30,7 @@ struct SimulationView: View {
 		}
 		.onAppear {
 			viewModel.startSimulation()
+			print(viewModel.group.count)
 		}
 		.navigationBarBackButtonHidden(true)
 		.toolbar {
@@ -49,7 +50,7 @@ struct PersonView: View {
 
 	var body: some View {
 		Button {
-			self.person.infect()
+			self.viewModel.personInfected(person: person)
 			self.viewModel.incrementInfectedCount()
 		} label: {
 			Image(systemName: "figure.stand")
@@ -64,6 +65,7 @@ struct BottomBarView: View {
 	
 	@EnvironmentObject private var viewModel: SimulationViewModel
 	@Environment(\.colorScheme) private var colorScheme
+	@State private var isViewPushed = false
 
 	var body: some View {
 		HStack {
@@ -83,8 +85,9 @@ struct BottomBarView: View {
 			
 			Spacer()
 			
-			NavigationLink {
-				SetupView()
+			Button {
+				isViewPushed.toggle()
+				viewModel.stopSimulation()
 			} label: {
 				Text("Остановить симуляцию")
 					.padding(20)
@@ -93,6 +96,9 @@ struct BottomBarView: View {
 					.clipShape(Capsule())
 			}
 			.buttonStyle(ScaleButtonStyle())
+			.navigationDestination(isPresented: $isViewPushed) {
+				SetupView()
+			}
 			
 			Spacer()
 			
