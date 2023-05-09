@@ -14,13 +14,14 @@ struct SimulationView: View {
 	var body: some View {
 		ZStack {
 			ScrollView {
-				LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: viewModel.columnsCount),
+				LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 10),
 									alignment: .center,
 									spacing: 6) {
-					ForEach(viewModel.group) { person in
-						PersonView(person: person)
+					ForEach(viewModel.group.indices, id: \.self) { index in
+						PersonView(index: index)
 					}
 				}
+				.padding(.bottom, 100)
 			}
 			
 			VStack {
@@ -30,7 +31,6 @@ struct SimulationView: View {
 		}
 		.onAppear {
 			viewModel.startSimulation()
-			print(viewModel.group.count)
 		}
 		.navigationBarBackButtonHidden(true)
 		.toolbar {
@@ -44,17 +44,18 @@ struct SimulationView: View {
 }
 
 struct PersonView: View {
-
-	@ObservedObject var person: Person
+	
 	@EnvironmentObject private var viewModel: SimulationViewModel
+	
+	var index: Int
 
 	var body: some View {
 		Button {
-			self.viewModel.personInfected(person: person)
-			self.viewModel.incrementInfectedCount()
+			self.viewModel.infect(personIndex: index)
+			self.viewModel.updateView()
 		} label: {
 			Image(systemName: "figure.stand")
-				.foregroundColor(person.isInfected ? .red : .green)
+				.foregroundColor(viewModel.group[index].isInfected ? .red : .green)
 				.font(.system(size: 40))
 		}
 		.buttonStyle(ScaleButtonStyle())
@@ -72,7 +73,7 @@ struct BottomBarView: View {
 			
 			VStack {
 				Image(systemName: "figure.stand")
-				Text("\(viewModel.healtyCount)")
+				Text("\(viewModel.healthyPeople)")
 					.lineLimit(1)
 					.font(.system(size: 10))
 			}
@@ -104,7 +105,7 @@ struct BottomBarView: View {
 			
 			VStack {
 				Image(systemName: "figure.stand")
-				Text("\(viewModel.infectedCount)")
+				Text("\(viewModel.infectedPeople)")
 					.lineLimit(1)
 					.font(.system(size: 10))
 			}

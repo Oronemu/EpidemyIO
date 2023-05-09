@@ -7,17 +7,12 @@
 
 import Foundation
 
-class Person: ObservableObject, Identifiable {
-		
-	let id = UUID()
+class Person: ObservableObject {
 	
 	@Published var isInfected: Bool = false 
-	
-	var isInfectious: Bool = false
-	
+		
 	func infect() {
 		self.isInfected = true
-		self.isInfectious = true
 	}
 	
 }

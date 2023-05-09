@@ -33,7 +33,7 @@ struct SetupView: View {
 						Text("Количество зараженных при контакте")
 					CustomNumberTextField(placeholder: "Например: 3", value: $viewModel.infectionFactor)
 						Text("Период пересчета кол-ва зараженных")
-					CustomNumberTextField(placeholder: "Например: 5", value: $viewModel.T)
+					CustomNumberTextField(placeholder: "Например: 5", value: $viewModel.infectionInterval)
 				}
 				.padding(.vertical)
 				
