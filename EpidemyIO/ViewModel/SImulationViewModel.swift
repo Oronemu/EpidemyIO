@@ -20,7 +20,12 @@ class SimulationViewModel: ObservableObject {
 	@Published var infectedPeople = 0
 	
 	func startSimulation() {
-		self.simulationModel = SimulationModel(groupSize: groupSize!, infectionInterval: infectionInterval!, InfectionFactor: infectionFactor!, columns: 10) { infected, health in
+		
+		guard let groupSize = groupSize, let infectionInterval = infectionInterval, let infectionFactor = infectionFactor else {
+				return
+		}
+		
+		self.simulationModel = SimulationModel(groupSize: groupSize, infectionInterval: infectionInterval, InfectionFactor: infectionFactor, columns: 10) { infected, health in
 			self.infectedPeople = infected
 			self.healthyPeople = health
 		}
