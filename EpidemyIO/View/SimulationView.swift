@@ -13,15 +13,20 @@ struct SimulationView: View {
 	
 	var body: some View {
 		ZStack {
-			ScrollView {
-				LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 10),
-									alignment: .center,
-									spacing: 6) {
-					ForEach(viewModel.group.indices, id: \.self) { index in
-						PersonView(index: index)
+			switch viewModel.state {
+			case .idle:
+				ScrollView {
+					LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 10),
+										alignment: .center,
+										spacing: 6) {
+						ForEach(viewModel.group.indices, id: \.self) { index in
+							PersonView(index: index)
+						}
 					}
+					.padding(.bottom, 100)
 				}
-				.padding(.bottom, 100)
+			case .loading:
+				ProgressView()
 			}
 			
 			VStack {
@@ -52,7 +57,6 @@ struct PersonView: View {
 	var body: some View {
 		Button {
 			self.viewModel.infect(personIndex: index)
-			self.viewModel.updateView()
 		} label: {
 			Image(systemName: "figure.stand")
 				.foregroundColor(viewModel.group[index].isInfected ? .red : .green)

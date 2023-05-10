@@ -15,12 +15,22 @@ class SimulationViewModel: ObservableObject {
 	var infectionInterval: Int?
 	var infectionFactor: Int?
 	
-	@Published var group: [Person] = []
+	var group: [Person] = []
 	@Published var healthyPeople = 0
 	@Published var infectedPeople = 0
 	
+	@Published var state: State = .idle
+	
+	enum State {
+		case loading
+		case idle
+	}
+	
 	func startSimulation() {
+		self.state = .loading
+		
 		guard let groupSize = groupSize, let infectionInterval = infectionInterval, let infectionFactor = infectionFactor else {
+			self.state = .idle
 			return
 		}
 		
@@ -32,9 +42,8 @@ class SimulationViewModel: ObservableObject {
 		self.simulationModel?.createGroup { group in
 			self.group = group
 			self.healthyPeople = group.count
+			self.state = .idle
 		}
-		
-		simulationModel?.startSimulation()
 	}
 	
 	func stopSimulation() {
@@ -46,9 +55,5 @@ class SimulationViewModel: ObservableObject {
 			self.infectedPeople = infectedPeople
 			self.healthyPeople = healthyPeople
 		}
-	}
-	
-	func updateView(){
-		self.objectWillChange.send()
 	}
 }

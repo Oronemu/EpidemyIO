@@ -55,6 +55,7 @@ class SimulationModel: ObservableObject {
 		timer?.cancel()
 		timer = nil
 		self.group.removeAll()
+		self.infectorIndicies.removeAll()
 	}
 	
 	func addToInfectors(infectorIndex: Int, _ completion: @escaping (Int, Int) -> Void) {
