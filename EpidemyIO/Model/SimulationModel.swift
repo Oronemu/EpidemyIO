@@ -9,23 +9,19 @@ import Foundation
 
 class SimulationModel: ObservableObject {
 	
-	var group: [Person] = []
-	var infectorIndicies: [Int] = []
-	var timer: DispatchSourceTimer?
+	private var infectorIndicies: [Int] = []
+	private var group: [Person] = []
+	private var timer: DispatchSourceTimer?
 
-	var infectionInterval: Int
-	var InfectionFactor: Int
-	var columns: Int
-	var groupSize: Int {
-		didSet(newValue) {
-			self.healthyPeople = newValue
-		}
-	}
+	private var infectionInterval: Int
+	private var InfectionFactor: Int
+	private var columns: Int
+	private var groupSize: Int
 	
-	var healthyPeople: Int = 0
-	var infectedPeople: Int = 0
+	private var healthyPeople: Int = 0
+	private var infectedPeople: Int = 0
 	
-	var callback: (Int, Int) -> Void
+	private var callback: (Int, Int) -> Void
 	
 	init(groupSize: Int, infectionInterval: Int, InfectionFactor: Int, columns: Int, callback: @escaping (Int, Int) -> Void) {
 		self.groupSize = groupSize
@@ -35,13 +31,18 @@ class SimulationModel: ObservableObject {
 		self.callback = callback
 	}
 	
-	func createGroup() -> [Person] {
-		self.group = (0...groupSize-1).map { _ in Person() }
-		return self.group
+	func createGroup(_ completion: @escaping ([Person]) -> Void ){
+		DispatchQueue.global(qos: .background).async {
+			let group = (0...self.groupSize-1).map { _ in Person() }
+			self.healthyPeople = group.count
+			DispatchQueue.main.async {
+				self.group = group
+				completion(group)
+			}
+		}
 	}
 	
 	func startSimulation() {
-		self.healthyPeople = self.group.count
 		if timer == nil {
 			timer = DispatchSource.makeTimerSource(queue: DispatchQueue.global(qos: .background))
 			timer?.schedule(deadline: .now(), repeating: Double(infectionInterval))
@@ -56,7 +57,14 @@ class SimulationModel: ObservableObject {
 		self.group.removeAll()
 	}
 	
-	func incrementInfectedPeopleCount() {
+	func addToInfectors(infectorIndex: Int, _ completion: @escaping (Int, Int) -> Void) {
+		self.group[infectorIndex].infect()
+		self.infectorIndicies.append(infectorIndex)
+		self.incrementInfectedPeopleCount()
+		completion(self.infectedPeople, self.healthyPeople)
+	}
+	 
+	private func incrementInfectedPeopleCount() {
 		self.infectedPeople += 1
 		self.healthyPeople -= 1
 	}
@@ -113,5 +121,4 @@ class SimulationModel: ObservableObject {
 		
 		return res
 	}
-	
 }

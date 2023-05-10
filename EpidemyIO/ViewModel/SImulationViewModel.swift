@@ -20,16 +20,20 @@ class SimulationViewModel: ObservableObject {
 	@Published var infectedPeople = 0
 	
 	func startSimulation() {
-		
 		guard let groupSize = groupSize, let infectionInterval = infectionInterval, let infectionFactor = infectionFactor else {
-				return
+			return
 		}
 		
-		self.simulationModel = SimulationModel(groupSize: groupSize, infectionInterval: infectionInterval, InfectionFactor: infectionFactor, columns: 10) { infected, health in
-			self.infectedPeople = infected
-			self.healthyPeople = health
+		self.simulationModel = SimulationModel(groupSize: groupSize, infectionInterval: infectionInterval, InfectionFactor: infectionFactor, columns: 10) { infectedPeople, healthyPeople in
+			self.infectedPeople = infectedPeople
+			self.healthyPeople = healthyPeople
 		}
-		self.group = (self.simulationModel?.createGroup())!
+		
+		self.simulationModel?.createGroup { group in
+			self.group = group
+			self.healthyPeople = group.count
+		}
+		
 		simulationModel?.startSimulation()
 	}
 	
@@ -38,13 +42,13 @@ class SimulationViewModel: ObservableObject {
 	}
 	
 	func infect(personIndex: Int) {
-		group[personIndex].infect()
-		simulationModel?.incrementInfectedPeopleCount()
-		simulationModel?.infectorIndicies.append(personIndex)
+		self.simulationModel?.addToInfectors(infectorIndex: personIndex) { infectedPeople, healthyPeople in
+			self.infectedPeople = infectedPeople
+			self.healthyPeople = healthyPeople
+		}
 	}
 	
 	func updateView(){
 		self.objectWillChange.send()
 	}
-	
 }
