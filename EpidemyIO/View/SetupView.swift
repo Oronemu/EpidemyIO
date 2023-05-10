@@ -10,6 +10,8 @@ import SwiftUI
 struct SetupView: View {
 	
 	@EnvironmentObject private var viewModel: SimulationViewModel
+	@State private var showAlert = false
+	@State private var alertMessage = ""
 	
 	var body: some View {
 		NavigationStack {
@@ -44,11 +46,22 @@ struct SetupView: View {
 						.foregroundColor(.white)
 						.clipShape(Capsule())
 				}
+				.disabled(!areFieldsFilled())
 				.buttonStyle(ScaleButtonStyle())
 			}
 			.padding()
 			.toolbar(.hidden)
 		}
+	}
+	
+	private func areFieldsFilled() -> Bool {
+			guard let groupSize = viewModel.groupSize,
+						let infectionInterval = viewModel.infectionInterval,
+						let infectionFactor = viewModel.infectionFactor else {
+					return false
+			}
+			
+		return groupSize != 0 && infectionInterval != 0 && infectionFactor != 0
 	}
 }
 

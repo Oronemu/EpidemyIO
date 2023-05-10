@@ -11,9 +11,9 @@ class SimulationViewModel: ObservableObject {
 	
 	var simulationModel: SimulationModel?
 	
-	var groupSize: Int?
-	var infectionInterval: Int?
-	var infectionFactor: Int?
+	@Published var groupSize: Int?
+	@Published var infectionInterval: Int?
+	@Published var infectionFactor: Int?
 	
 	var group: [Person] = []
 	@Published var healthyPeople = 0
